@@ -19,7 +19,7 @@ class PythonProcess(Process):
         Process.__init__(self)
     def run(self):
         while True:
-            time.sleep(0.01)
+            #time.sleep(0.01)
             pass
 
 
@@ -52,11 +52,14 @@ class PythonAddQueueProcess(Process):
 
 
 if __name__ == '__main__':
-    processqueues = [Queue(maxsize=10)  for _ in ["1"] * 4]
-    for i in range(2):
-        python_add_process = PythonAddQueueProcess(processqueues[i])
-        python_add_process.start()
-        print("add process pid = {}".format(python_add_process.pid))
-        python_process = PythonQueueProcess(processqueues[i])
-        python_process.start()
-        print("process queue pid = {}".format(python_process.pid))
+    # processqueues = [Queue(maxsize=10)  for _ in ["1"] * 4]
+    # for i in range(2):
+    #     python_add_process = PythonAddQueueProcess(processqueues[i])
+    #     python_add_process.start()
+    #     print("add process pid = {}".format(python_add_process.pid))
+    #     python_process = PythonQueueProcess(processqueues[i])
+    #     python_process.start()
+    #     print("process queue pid = {}".format(python_process.pid))
+    for i in range(10):
+        process = PythonProcess()
+        process.start()
