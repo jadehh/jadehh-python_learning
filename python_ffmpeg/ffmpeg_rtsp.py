@@ -7,19 +7,32 @@
 # @Software : Samples
 # @Desc     :
 import ffmpeg
-packet_size = 4096
+import socket
+import numpy as np
+input_args = {
+    "rtsp_transport":'tcp',
+}
+output_args = {
+    "vcodec": "hevc_nvenc",
+    "c:v": "hevc_nvenc",
+    "pix_fmt":'rgb24',
+    "format":'rawvideo'
+}
+
+
 
 process = (
     ffmpeg
-    .input('rtsp://admin:samples123@192.168.35.119:554/Streaming/tracks/201?starttime=20200116t105450z&endtime=20200117t170000z')
-    .output('-', format='h264')
+    .input('rtsp://admin:samples123@192.168.35.119:554/Streaming/tracks/201?starttime=20200116t105450z&endtime=20200117t170000z',**input_args)
+    .output('pipe:',**output_args)
     .run_async(pipe_stdout=True)
 )
 
 while process.poll() is None:
-    packet = process.stdout.read(packet_size)
+    in_bytes = process.stdout.read(1920 * 1080 * 3)
     try:
-        tcp_socket.send(packet)
+        image = np.frombuffer(in_bytes, np.uint8).reshape([-1, 1920, 1080, 3])
+        print(image)
     except socket.error:
         process.stdout.close()
         process.wait()

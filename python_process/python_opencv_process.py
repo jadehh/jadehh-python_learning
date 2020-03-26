@@ -10,6 +10,7 @@
 from multiprocessing import Process,Queue,Pipe
 import cv2
 import time
+
 class VideoReadProcess(Process):
     def __init__(self,video_path,framequeue:Queue):
         self.video_path = video_path
