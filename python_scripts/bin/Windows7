@@ -1,0 +1,2 @@
+rdesktop -f -u administrator -p samples -a 16  192.168.35.239
+

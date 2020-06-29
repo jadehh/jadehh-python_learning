@@ -1,0 +1,4 @@
+#!/home/jade/SoftWare/anaconda3/bin/python
+if __name__ == '__main__':
+    import os
+    os.system("/home/jade/SoftWare/anaconda3/bin/python ../get_docker_images.py")

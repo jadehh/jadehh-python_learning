@@ -1,0 +1,2 @@
+##!/usr/bin/env bash
+python ../python_stop_thread.py
