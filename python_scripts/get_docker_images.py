@@ -14,6 +14,8 @@ import urllib.request as urllib2
 #import urllib2
 import prettytable as pt
 import json
+import datetime
+import time
 ##获取所有镜像
 "http:///127.0.0.1:5000/v2/_catalog"
 ##获取镜像的版本
@@ -86,6 +88,8 @@ def getDockerContent(IPADDRESS):
                     v1Compatibility = (json.loads(histories[0].get("v1Compatibility")))
                     create_time = v1Compatibility.get("created")
                     create_time_format = create_time[:10]+ " " + create_time[11:19]
+                    create_time_format_float_real = datetime.datetime.strptime(create_time_format, "%Y-%m-%d %H:%M:%S") + datetime.timedelta(hours=8)
+                    create_time_format_real = create_time_format_float_real.strftime("%Y-%m-%d %H:%M:%S")
                     for blobsum in manifests_repositories.get("fsLayers"):
 
                         blob_url_detail = blob_url.format(space_docker[0]+"/"+docker_image,blobsum.get("blobSum"))
@@ -93,7 +97,7 @@ def getDockerContent(IPADDRESS):
                         #print(blob_url_detail,size)
                         sum_size = sum_size + size[0]
                     index = index + 1
-                    tb.add_row([str(index), IPADDRESS + "/" + space_docker[0] + "/" + docker_image + ":" + version_image, create_time_format, str(sum_size)+" MB"])
+                    tb.add_row([str(index), IPADDRESS + "/" + space_docker[0] + "/" + docker_image + ":" + version_image, create_time_format_real, str(sum_size)+" MB"])
         print(tb)
 
 
@@ -102,5 +106,5 @@ if __name__ == '__main__':
     # get_doc_real_size("/home/jade/sda2/Data")
     #getRemoteFileSize("http://127.0.0.1:5000/v2/ubuntu/registry/blobs/sha256:486039affc0ad0f17f473efe8fb25c947515a8929198879d1e64210ef142372f")
 
-    getDockerContent("192.168.40.192:5000")
+    getDockerContent("192.168.35.120:5000")
 
