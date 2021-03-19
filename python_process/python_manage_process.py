@@ -51,6 +51,20 @@ class PythonAddQueueProcess(Process):
             time.sleep(0.01)
 
 
+
+
+class StopQueue(Process):
+    def __init__(self,processqueue:Queue):
+        super().__init__()
+        self.processqueue = processqueue
+        Process.__init__(self)
+
+    def run(self):
+        while True:
+            self.processqueue.put(1)
+            time.sleep(0.01)
+
+
 if __name__ == '__main__':
     # processqueues = [Queue(maxsize=10)  for _ in ["1"] * 4]
     # for i in range(2):
