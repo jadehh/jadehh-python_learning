@@ -16,6 +16,7 @@ import ctypes
 lib = ctypes.CDLL('lib/test-class-shared.dll')
 
 
+
 def opaque_ptr(name):
     cls = type(name, (ctypes.Structure,), {})
     return ctypes.POINTER(cls)
@@ -49,9 +50,6 @@ class A(object):
         if not self._obj:
             raise RuntimeError
         func(self._obj)
-
-with A('test') as a:
-    a.some_func()
 
 if __name__ == '__main__':
     with A('test') as a:
