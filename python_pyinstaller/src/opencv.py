@@ -6,8 +6,11 @@
 # @Email    : jadehh@1ive.com
 # @Software : Samples
 # @Desc     :
+import sys
+sys.path.append("../lib")
 import cv2
-if __name__ == '__main__':
+from config import  video_path
+def showWindow():
     #video_path = "rtsp://admin:samples123@192.168.35.211:554/h264/ch1/main/av_stream"
     video_path = "/home/jade/sda2/Data/TaiCang/Container/2020-09-04/front/2020-09-04-07-27-29.mp4"
     gpu_capture:cv2.cudacodec_VideoReader = cv2.cudacodec.createVideoReader(video_path)
@@ -29,3 +32,6 @@ if __name__ == '__main__':
         index = index + 1
         if index %100==0:
             print("正在播放视频,index = {},image cols = {}".format(index,frame.shape[1]))
+if __name__ == '__main__':
+    showWindow()
+
