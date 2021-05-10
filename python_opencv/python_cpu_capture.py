@@ -17,6 +17,9 @@ if __name__ == '__main__':
         ret,frame = capture.read()
         if ret is False:
             break
+        frame = cv2.resize(frame,(416,416))
+        cv2.imwrite("result.jpg",frame)
+
         cv2.imshow("cpu",frame)
         cv2.waitKey(0)
         index = index + 1
