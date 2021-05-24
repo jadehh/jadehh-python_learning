@@ -12,9 +12,10 @@ from queue import Queue
 from jade import *
 
 class read_video(Thread):
-    def __init__(self,video_path,framequeue):
+    def __init__(self,video_path,framequeue,split_frame=1):
         self.video_path = video_path
         self.framequeue = framequeue
+        self.split_frame = int(split_frame)
         self.index = 0
         Thread.__init__(self)
     def run(self):
@@ -27,7 +28,7 @@ class read_video(Thread):
         while capture.isOpened():
             ret,frame = capture.read()
             if ret:
-                if self.index % 10 == 0:
+                if self.index % self.split_frame == 0:
                     self.framequeue.put([ret, frame])
             else:
                 self.framequeue.put([ret, frame])
@@ -63,12 +64,13 @@ if __name__ == '__main__':
     parser.add_argument('-ip', type=str,help = 'please select day')
     parser.add_argument('-username',type=str,help='please select starttime')
     parser.add_argument('-passwd',type=str,help="please select duration")
+    parser.add_argument('-split',type=str,help='please select starttime')
     args = parser.parse_args()
     print(args.ip ,args.username,args.passwd)
 
     framequeue = Queue(maxsize=200)
     read_video_process = read_video(video_path="rtsp://{}:{}@{}/h264/ch1/main/av_stream".format(args.username,args.passwd,args.ip),
-                                    framequeue=framequeue)
+                                    framequeue=framequeue,split_frame=args.split)
     read_video_process.start()
     record_video_process = record_video(framequeue)
     record_video_process.start()
