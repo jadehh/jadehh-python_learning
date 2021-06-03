@@ -47,7 +47,7 @@ class record_video(Thread):
     def __init__(self, framequeue, path):
         self.framequeue = framequeue
         self.save_path =GetPreviousDir(path) + "/" + GetLastDir(path).split(".")[0] + ".avi"
-        self.fourcc = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
+        self.fourcc = cv2.VideoWriter_fourcc('X', 'V', 'I', 'D')
 
         Thread.__init__(self)
 
